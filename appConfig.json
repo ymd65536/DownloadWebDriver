@@ -1,0 +1,27 @@
+{
+  "app": [
+    {
+      "AuthJsonFile": "auth.json",
+      "AuthJsonFileEncode": "utf-8",
+      "ExtractFolderPath": "D:\\edgedriver_win32"
+    }
+  ],
+  "MSEdgeConfig":
+  {
+    "ZipFilePath": "D:\\edgedriver_win32.zip",
+    "ZipFileName": "edgedriver_win32.zip",
+    "Path":"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\",
+    "FileName":"msedge.exe",
+    "WebDriverPath":"D:\\edgedriver_win32",
+    "WebDriverFileName":"msedgedriver.exe",
+    "RequestEndPoint": "https://msedgedriver.azureedge.net/"
+  },
+  "GCConfig":
+  {
+    "Path":"C:\\Program Files (x86)\\Google\\Chrome\\Application\\",
+    "FileName":"chrome.exe",
+    "WebDriverPath":"",
+    "WebDriverFileName":"",
+    "RequestEndPoint": "https://chromedriver.chromium.org/downloads"
+  }
+}
