@@ -68,14 +68,11 @@ namespace ConnectProxy
             client = new HttpClient(ch);
         }
 
-        public void Connect(string ProxyName, string UserName, string PassWord)
+        public void Connect()
         {
             // HttpClientHandlerにProxy情報を設定する
             ch = new HttpClientHandler();
-            ch.Proxy = new WebProxy(ProxyName);
-            ch.Proxy.Credentials = new NetworkCredential(UserName, PassWord);
-            ch.UseProxy = true;
-
+            ch.UseProxy = false;
             // HttpClientHandlerを用いてHttpClientを生成
             client = new HttpClient(ch);
 
