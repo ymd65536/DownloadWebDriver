@@ -57,3 +57,18 @@
   }
 }
 ```
+
+## 単一のアプリケーションとして利用する
+
+dotNETCoreがインストールされていない場合でもプログラムを実行したい場合は
+`dotnet publish` を用いて実行可能形式のexeを生成する。
+
+```bash
+dotnet publish -r win-x64 -p:PublishSingleFile=true --self-contained false
+```
+
+MimeKit が必要となる場合はパッケージを追加する。
+
+```bash
+dotnet add package MimeKit --version 2.15.1
+```
