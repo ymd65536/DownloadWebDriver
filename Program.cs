@@ -53,13 +53,20 @@ namespace WebDriverDownload
             // プロキシ接続
             // WebDriverをダウンロード
             // Zipファイルを出力
-            ProxyInfo.ProxyConfig SetConfig = new ProxyInfo.ProxyConfig();
             UserInfo ConfigData = new UserInfo();
-            ConfigData = SetConfig.ReadJson(jsonPath, Encoding.GetEncoding(encode));
+            ProxyInfo.ProxyConfig SetConfig = new ProxyInfo.ProxyConfig();
 
-            if (!(SetConfig == null))
+            ConfigData = SetConfig.ReadJson(jsonPath, Encoding.GetEncoding(encode));
+            Console.WriteLine("ファイルリクエスト：" + ZipFileRequestUrl);
+
+            if (ConfigData == null)
             {
-                Console.WriteLine("ファイルリクエスト：" + ZipFileRequestUrl);
+                ConnectProxy.ProxyConnection ProCon = new ConnectProxy.ProxyConnection();
+                ProCon.Connect();
+                ProCon.RequestFile(ZipFileRequestUrl, MSEdgeZipFilePath);
+            }
+            else
+            {
                 ConnectProxy.ProxyConnection ProCon = new ConnectProxy.ProxyConnection();
                 ProCon.Connect(ConfigData);
                 ProCon.RequestFile(ZipFileRequestUrl, MSEdgeZipFilePath);
