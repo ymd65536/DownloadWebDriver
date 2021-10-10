@@ -17,11 +17,11 @@
 
 ```json
 {
-  "UserName":"UserName",
-  "PassWord":"password",
-  "ProxyName":"proxy_name:port"
+  "ProxyAuth": false,
+  "UserName": "UserName",
+  "PassWord": "password",
+  "ProxyName": "proxy_name:port"
 }
-
 ```
 
 ### appConfig.json
