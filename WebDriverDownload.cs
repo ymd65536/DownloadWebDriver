@@ -20,7 +20,7 @@ public class UserInfo
     public string UserName { get; set; }
     public string PassWord { get; set; }
     public string ProxyName { get; set; }
-    public string RequestUrl { get; set; }
+    public bool ProxyAuth { get; set; }
 }
 namespace ProxyInfo
 {
@@ -57,10 +57,13 @@ namespace ConnectProxy
         {
             // HttpClientHandlerにProxy情報を設定する
             ch = new HttpClientHandler();
-            ch.Proxy = new WebProxy(data.ProxyName);
-            ch.Proxy.Credentials = new NetworkCredential(data.UserName, data.PassWord);
-            ch.UseProxy = true;
-
+            ch.UseProxy = data.ProxyAuth;
+            // 認証が必要な場合とそうでない場合に分ける
+            if (data.ProxyAuth)
+            {
+                ch.Proxy = new WebProxy(data.ProxyName);
+                ch.Proxy.Credentials = new NetworkCredential(data.UserName, data.PassWord);
+            }
             // HttpClientHandlerを用いてHttpClientを生成
             client = new HttpClient(ch);
         }
