@@ -12,6 +12,13 @@ namespace WebDriverDownload
         {
             // アプリケーションの設定を読み込み
             string CurDir = Directory.GetCurrentDirectory();
+
+            if (!File.Exists(CurDir + "\\" + "appConfig.json"))
+            {
+                Console.WriteLine("アプリケーションの設定に失敗しました。");
+                return;
+            }
+
             StreamReader AppSetting = new StreamReader(CurDir + "\\" + "appConfig.json");
             JsonDocument appConfig = JsonDocument.Parse(AppSetting.ReadToEnd());
             JsonElement appElement = appConfig.RootElement.GetProperty("app");
@@ -42,51 +49,39 @@ namespace WebDriverDownload
                 Console.WriteLine("WebDriver アップデート済");
                 return;
             }
-            else
+
+            // プロキシ接続
+            // WebDriverをダウンロード
+            // Zipファイルを出力
+            ProxyInfo.ProxyConfig SetConfig = new ProxyInfo.ProxyConfig();
+            UserInfo ConfigData = new UserInfo();
+            ConfigData = SetConfig.ReadJson(jsonPath, Encoding.GetEncoding(encode));
+
+            if (!(SetConfig == null))
             {
-                try
-                {
-
-                    // プロキシ接続
-                    // WebDriverをダウンロード
-                    // Zipファイルを出力
-                    ProxyInfo.ProxyConfig SetConfig = new ProxyInfo.ProxyConfig();
-                    UserInfo ConfigData = new UserInfo();
-                    ConfigData = SetConfig.ReadJson(jsonPath, Encoding.GetEncoding(encode));
-
-                    if (!(SetConfig == null))
-                    {
-                        Console.WriteLine("ファイルリクエスト：" + ZipFileRequestUrl);
-                        ConnectProxy.ProxyConnection ProCon = new ConnectProxy.ProxyConnection();
-                        ProCon.Connect(ConfigData);
-                        ProCon.RequestFile(ZipFileRequestUrl, MSEdgeZipFilePath);
-                    }
-
-                }
-                catch
-                {
-                    return;
-                }
-
-                // Zipファイルを解凍
-                Console.WriteLine("zipファイルの解凍開始！！：" + MSEdgeZipFilePath);
-                Console.WriteLine(MSEdgeZipFilePath + "=>" + extractPath);
-
-                try
-                {
-                    if (Directory.Exists(extractPath))
-                    {
-                        Directory.Delete(extractPath, true);
-                    }
-                    ZipFile.ExtractToDirectory(MSEdgeZipFilePath, extractPath);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("解凍に失敗しました。");
-                    Console.WriteLine(e.Message);
-                }
-
+                Console.WriteLine("ファイルリクエスト：" + ZipFileRequestUrl);
+                ConnectProxy.ProxyConnection ProCon = new ConnectProxy.ProxyConnection();
+                ProCon.Connect(ConfigData);
+                ProCon.RequestFile(ZipFileRequestUrl, MSEdgeZipFilePath);
             }
+            // Zipファイルを解凍
+            Console.WriteLine("zipファイルの解凍開始！！：" + MSEdgeZipFilePath);
+            Console.WriteLine(MSEdgeZipFilePath + "=>" + extractPath);
+
+            try
+            {
+                if (Directory.Exists(extractPath))
+                {
+                    Directory.Delete(extractPath, true);
+                }
+                ZipFile.ExtractToDirectory(MSEdgeZipFilePath, extractPath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("解凍に失敗しました。");
+                Console.WriteLine(e.Message);
+            }
+
             Console.WriteLine("インストール終了！！");
             return;
         }
